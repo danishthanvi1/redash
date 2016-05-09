@@ -10,10 +10,12 @@ from redash.permissions import require_super_admin
 
 
 def base_href():
+    scheme = 'https' if settings.ENFORCE_HTTPS else 'http'
     if settings.MULTI_ORG:
-        base_href = url_for('redash.index', _external=True, org_slug=current_org.slug)
+        base_href = url_for('redash.index', _external=True,
+                            _scheme=scheme, org_slug=current_org.slug)
     else:
-        base_href = url_for('redash.index', _external=True)
+        base_href = url_for('redash.index', _external=True, _scheme=scheme)
 
     return base_href
 
